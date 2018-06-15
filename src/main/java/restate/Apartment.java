@@ -15,19 +15,4 @@ public class Apartment extends RealEstate {
         this.address = address;
         this.number = number;
     }
-
-    public static class Supply extends restate.Supply<Apartment> { }
-
-    public static class Demand extends restate.Demand<Apartment> {
-        public Address address;
-        public Integer minFloor;
-        public Integer maxFloor;
-        public Integer minRooms;
-        public Integer maxRooms;
-        public Double minTotalArea;
-        public Double maxTotalArea;
-        public Boolean hasAlarmSystem;
-        public Boolean hasTV;
-        public Boolean hasInternet;
-    }
 }

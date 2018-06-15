@@ -1,7 +1,7 @@
 package restate;
 
 
-abstract class RealEstate implements Identifiable<Long> {
+public abstract class RealEstate {
     Address address;
     Double latitude;
     Double longitude;
