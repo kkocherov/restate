@@ -13,7 +13,7 @@ public class UseCases {
         agent1 = app.addAgent(agent1);
 
         Supply supply = new Supply();
-        supply.setObject(new Apartment(new Address("Россия", "Москва", "Тверская", "2"), 24));
+        supply.setObject(new Apartment(new Address("Москва", "Тверская", "2", "24")));
         supply.setKind(DealKind.PURCHASE);
         supply.setPrice(2 * 1000 * 1000);
         supply.setAgent(agent1);

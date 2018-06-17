@@ -1,6 +1,263 @@
 package restate;
 
+import java.util.LinkedList;
 import java.util.List;
+
+class Coordinate {
+    public double latitude;
+    public double longitude;
+}
+
+class Address {
+    public String city;
+    public String street;
+    public String house;
+    public String apartnemt;
+
+    public Address(String city, String street, String house, String apartnemt) {
+        this.city = city;
+        this.street = street;
+        this.house = house;
+        this.apartnemt = apartnemt;
+    }
+}
+
+abstract class RealEstate {
+    protected Address address;
+    protected Coordinate coordinate;
+
+    public RealEstate(Address address) {
+        this.address = address;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Coordinate getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(Coordinate coordinate) {
+        this.coordinate = coordinate;
+    }
+}
+
+class House extends RealEstate {
+    private Integer totalFloors;
+    private Integer builtYear;
+    private Integer beds;
+    private Integer bathrooms;
+    private Integer rooms;
+    private Double houseArea; // площадь дома
+    private Double landArea; // площадь участка
+    private Boolean surveyed; // проведено межевание
+    private Boolean hasGas;
+    private Boolean hasElectricity;
+    private Boolean hasWater;
+    private Boolean hasHeating; // отопление
+
+    public House(Address address) {
+        super(address);
+    }
+
+    public Integer getTotalFloors() {
+        return totalFloors;
+    }
+
+    public void setTotalFloors(Integer totalFloors) {
+        this.totalFloors = totalFloors;
+    }
+
+    public Integer getBuiltYear() {
+        return builtYear;
+    }
+
+    public void setBuiltYear(Integer builtYear) {
+        this.builtYear = builtYear;
+    }
+
+    public Integer getBeds() {
+        return beds;
+    }
+
+    public void setBeds(Integer beds) {
+        this.beds = beds;
+    }
+
+    public Integer getBathrooms() {
+        return bathrooms;
+    }
+
+    public void setBathrooms(Integer bathrooms) {
+        this.bathrooms = bathrooms;
+    }
+
+    public Integer getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(Integer rooms) {
+        this.rooms = rooms;
+    }
+
+    public Double getHouseArea() {
+        return houseArea;
+    }
+
+    public void setHouseArea(Double houseArea) {
+        this.houseArea = houseArea;
+    }
+
+    public Double getLandArea() {
+        return landArea;
+    }
+
+    public void setLandArea(Double landArea) {
+        this.landArea = landArea;
+    }
+
+    public Boolean getSurveyed() {
+        return surveyed;
+    }
+
+    public void setSurveyed(Boolean surveyed) {
+        this.surveyed = surveyed;
+    }
+
+    public Boolean getHasGas() {
+        return hasGas;
+    }
+
+    public void setHasGas(Boolean hasGas) {
+        this.hasGas = hasGas;
+    }
+
+    public Boolean getHasElectricity() {
+        return hasElectricity;
+    }
+
+    public void setHasElectricity(Boolean hasElectricity) {
+        this.hasElectricity = hasElectricity;
+    }
+
+    public Boolean getHasWater() {
+        return hasWater;
+    }
+
+    public void setHasWater(Boolean hasWater) {
+        this.hasWater = hasWater;
+    }
+
+    public Boolean getHasHeating() {
+        return hasHeating;
+    }
+
+    public void setHasHeating(Boolean hasHeating) {
+        this.hasHeating = hasHeating;
+    }
+}
+
+class Apartment extends RealEstate {
+    private Integer floor;
+    private Integer beds;
+    private Integer bathrooms;
+    private Integer rooms;
+    private Double totalArea;
+    private Boolean hasAlarmSystem; // домофон
+    private Boolean hasTV;
+    private Boolean hasInternet;
+    private Boolean newBuilding; // в новостройке
+
+    public Apartment(Address address) {
+        super(address);
+    }
+
+    public Integer getFloor() {
+        return floor;
+    }
+
+    public void setFloor(Integer floor) {
+        this.floor = floor;
+    }
+
+    public Integer getBeds() {
+        return beds;
+    }
+
+    public void setBeds(Integer beds) {
+        this.beds = beds;
+    }
+
+    public Integer getBathrooms() {
+        return bathrooms;
+    }
+
+    public void setBathrooms(Integer bathrooms) {
+        this.bathrooms = bathrooms;
+    }
+
+    public Integer getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(Integer rooms) {
+        this.rooms = rooms;
+    }
+
+    public Double getTotalArea() {
+        return totalArea;
+    }
+
+    public void setTotalArea(Double totalArea) {
+        this.totalArea = totalArea;
+    }
+
+    public Boolean getHasAlarmSystem() {
+        return hasAlarmSystem;
+    }
+
+    public void setHasAlarmSystem(Boolean hasAlarmSystem) {
+        this.hasAlarmSystem = hasAlarmSystem;
+    }
+
+    public Boolean getHasTV() {
+        return hasTV;
+    }
+
+    public void setHasTV(Boolean hasTV) {
+        this.hasTV = hasTV;
+    }
+
+    public Boolean getHasInternet() {
+        return hasInternet;
+    }
+
+    public void setHasInternet(Boolean hasInternet) {
+        this.hasInternet = hasInternet;
+    }
+
+    public Boolean getNewBuilding() {
+        return newBuilding;
+    }
+
+    public void setNewBuilding(Boolean newBuilding) {
+        this.newBuilding = newBuilding;
+    }
+}
+
+class Land extends RealEstate {
+    private double area;
+    private Boolean surveyed; // проведено межевание
+
+    public Land(Address address) {
+        super(address);
+    }
+}
 
 class Supply {
     public void setObject(RealEstate object) {
@@ -156,88 +413,118 @@ class Deal {
     }
 }
 
-class Client {
+class Person {
+    protected String firstName;
+    protected String middleName;
+    protected String lastName;
+    protected List<Contact> contacts;
+
+    public Person() {
+        this.contacts = new LinkedList<Contact>();
+    }
+
     public String getFirstName() {
-        return null;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
-
+        this.firstName = firstName;
     }
 
     public String getMiddleName() {
-        return null;
+        return middleName;
     }
 
     public void setMiddleName(String middleName) {
-
+        this.middleName = middleName;
     }
 
     public String getLastName() {
-        return null;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-
+        this.lastName = lastName;
     }
 
     public List<Contact> getContacts() {
-        return null;
+        return contacts;
     }
 
     public void setContacts(List<Contact> contacts) {
-
+        this.contacts = contacts;
     }
 }
 
-class Agent {
-    public String getFirstName() {
-        return null;
+class Client extends Person {
+    public Client() {
+        super();
     }
+}
 
-    public void setFirstName(String firstName) {
-
-    }
-
-    public String getMiddleName() {
-        return null;
-    }
-
-    public void setMiddleName(String middleName) {
-
-    }
-
-    public String getLastName() {
-        return null;
-    }
-
-    public void setLastName(String lastName) {
-
-    }
-
-    public List<Contact> getContacts() {
-        return null;
-    }
-
-    public void setContacts(List<Contact> contacts) {
-
-    }
-
-    public void setCommission(double percent) {
-
-    }
+class Agent extends Person {
+    public void setCommission(double percent) { }
 
     public double getCommission() {
         return 0;
     }
+
+    public Agent() {
+        super();
+    }
 }
 
 class RestateApplication {
+    List<Client> clients;
+
+    public RestateApplication() {
+        this.clients = new LinkedList<Client>();
+    }
+
     public Client addClient(Client client) {
+        if (client == null || client.getContacts().size() == 0)
+            throw new IllegalArgumentException();
+
+        for (Contact contact : client.getContacts()) {
+            if (contact.type == null || contact.value == null)
+                throw new IllegalArgumentException();
+
+            if (this.searchClient(contact) != null)
+                throw new IllegalArgumentException();
+        }
+
+        clients.add(client);
+
+        return client;
+    }
+
+    public Client searchClient(Contact contact) {
+        if (contact == null || contact.type == null || contact.value == null)
+            throw new IllegalArgumentException();
+
+        for (Client client : this.clients) {
+            for (Contact clientContact : client.getContacts()) {
+                if (contact.type.equals(clientContact.type) && contact.value.equals(clientContact.value))
+                    return client;
+            }
+        }
+
         return null;
     }
 
-    public Client findClient(Contact contact) {
+    public <T extends RealEstate> T addRealEstate(T restate) {
+        return null;
+    }
+
+    public RealEstate findRealEstateWithAddress(Address address) {
+        return null;
+    }
+
+    public RealEstate findRealEstateInsideCircle(Coordinate circleCenter, Double circleRadius) {
+        return null;
+    }
+
+    public RealEstate findRealEstateInsidePolygon(List<Coordinate> polygon) {
         return null;
     }
 
