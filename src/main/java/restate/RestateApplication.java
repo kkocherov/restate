@@ -2,10 +2,16 @@ package restate;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 class Coordinate {
     public double latitude;
     public double longitude;
+
+    public Coordinate(Double latitude, Double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 }
 
 class Address {
@@ -257,6 +263,22 @@ class Land extends RealEstate {
     public Land(Address address) {
         super(address);
     }
+
+    public double getArea() {
+        return area;
+    }
+
+    public void setArea(double area) {
+        this.area = area;
+    }
+
+    public Boolean getSurveyed() {
+        return surveyed;
+    }
+
+    public void setSurveyed(Boolean surveyed) {
+        this.surveyed = surveyed;
+    }
 }
 
 class Supply {
@@ -476,9 +498,11 @@ class Agent extends Person {
 
 class RestateApplication {
     List<Client> clients;
+    List<RealEstate> restates;
 
     public RestateApplication() {
         this.clients = new LinkedList<Client>();
+        this.restates = new LinkedList<RealEstate>();
     }
 
     public Client addClient(Client client) {
@@ -513,10 +537,27 @@ class RestateApplication {
     }
 
     public <T extends RealEstate> T addRealEstate(T restate) {
-        return null;
+        if (restate.getAddress() == null)
+            throw new IllegalArgumentException();
+
+        if (findRealEstateWithAddress(restate.getAddress()) != null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.restates.add(restate);
+
+        return restate;
     }
 
     public RealEstate findRealEstateWithAddress(Address address) {
+        for (RealEstate restate : this.restates) {
+            Address addr = restate.getAddress();
+            if (addr.city.equals(address.city)   && addr.street.equals(address.street) &&
+                addr.house.equals(address.house) && addr.apartnemt.equals(address.apartnemt)) {
+                return restate;
+            }
+        }
+
         return null;
     }
 
