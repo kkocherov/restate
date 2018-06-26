@@ -2,6 +2,9 @@ package restate;
 
 import org.junit.Test;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class RealEstateTests {
@@ -154,11 +157,91 @@ public class RealEstateTests {
 
     @Test
     public void findRestatesInCircle() {
+        Address address = new Address("Москва", "Продольная", "2", "1");
+        Apartment apartment = new Apartment(address);
+        apartment.setCoordinate(new Coordinate(65.511475, 57.149278));
 
+        List<RealEstate> restates = app.findRealEstateInsideCircle(new Coordinate(65.511575, 57.142278), 2000.);
+        assertNotNull(restates);
+
+        for (RealEstate restate: restates) {
+            if (restate instanceof Apartment) {
+                if (Helpers.equals(apartment, restate))
+                    // we haven't added our apartment yet, so it is error if we find it here
+                    fail();
+            }
+        }
+
+        app.addRealEstate(apartment);
+        restates = app.findRealEstateInsideCircle(new Coordinate(65.511575, 57.142278), 2000.);
+
+        for (RealEstate restate: restates) {
+            if (restate instanceof Apartment) {
+                if (Helpers.equals(apartment, restate))
+                    // got it! test passed
+                    return;
+            }
+        }
+
+        // if we got here, our apartment was not found
+        fail();
     }
 
     @Test
     public void findRestatesInPolygon() {
+        Address address = new Address("Москва", "Продольная", "1", "1");
+        Apartment apartment = new Apartment(address);
+        apartment.setCoordinate(new Coordinate(65.544434, 57.138475));
 
+        List<Coordinate> polygon = new LinkedList<>();
+        polygon.add(new Coordinate(65.409851, 57.113131));
+        polygon.add(new Coordinate(65.426331, 57.224441));
+        polygon.add(new Coordinate(65.737381, 57.212172));
+        polygon.add(new Coordinate(65.692749, 57.062764));
+
+        List<RealEstate> restates = app.findRealEstateInsidePolygon(polygon);
+        assertNotNull(restates);
+
+        for (RealEstate restate: restates) {
+            if (restate instanceof Apartment) {
+                if (Helpers.equals(apartment, restate))
+                    // we haven't added our apartment yet, so it is error if we find it here
+                    fail();
+            }
+        }
+
+        app.addRealEstate(apartment);
+        restates = app.findRealEstateInsidePolygon(polygon);
+
+        for (RealEstate restate: restates) {
+            if (restate instanceof Apartment) {
+                if (Helpers.equals(apartment, restate))
+                    // got it! test passed
+                    return;
+            }
+        }
+
+        // if we got here, our apartment was not found
+        fail();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void findRestatesInInvalidPolygon() {
+        List<Coordinate> polygon = new LinkedList<>();
+        polygon.add(new Coordinate(65.409851, 57.113131));
+        app.findRealEstateInsidePolygon(polygon);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void findRestatesInAnotherInvalidPolygon() {
+        List<Coordinate> polygon = new LinkedList<>();
+        polygon.add(new Coordinate(65.409851, 57.113131));
+        polygon.add(new Coordinate(65.426331, 57.224441));
+        app.findRealEstateInsidePolygon(polygon);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void findRestatesInInvalidCircle() {
+        app.findRealEstateInsideCircle(new Coordinate(65.409851, 57.113131), -20.);
     }
 }

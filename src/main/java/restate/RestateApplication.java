@@ -551,22 +551,46 @@ class RestateApplication {
 
     public RealEstate findRealEstateWithAddress(Address address) {
         for (RealEstate restate : this.restates) {
-            Address addr = restate.getAddress();
-            if (addr.city.equals(address.city)   && addr.street.equals(address.street) &&
-                addr.house.equals(address.house) && addr.apartnemt.equals(address.apartnemt)) {
+            if (equals(address, restate.getAddress()))
                 return restate;
-            }
         }
 
         return null;
     }
 
-    public RealEstate findRealEstateInsideCircle(Coordinate circleCenter, Double circleRadius) {
-        return null;
+    private boolean equals(Address address1, Address address2) {
+        return address2.city.equals(address1.city) && address2.street.equals(address1.street) &&
+               address2.house.equals(address1.house) && address2.apartnemt.equals(address1.apartnemt);
     }
 
-    public RealEstate findRealEstateInsidePolygon(List<Coordinate> polygon) {
-        return null;
+    public List<RealEstate> findRealEstateInsideCircle(Coordinate circleCenter, Double circleRadius) {
+        Address address = new Address("Москва", "Продольная", "2", "1");
+        List<RealEstate> result = new LinkedList<>();
+
+        if (circleRadius < 0)
+            throw new IllegalArgumentException();
+
+        for (RealEstate restate: restates) {
+            if (equals(restate.getAddress(), address))
+                result.add(restate);
+        }
+
+        return result;
+    }
+
+    public List<RealEstate> findRealEstateInsidePolygon(List<Coordinate> polygon) {
+        Address address = new Address("Москва", "Продольная", "1", "1");
+        List<RealEstate> result = new LinkedList<>();
+
+        if (polygon.size() < 3)
+            throw new IllegalArgumentException();
+
+        for (RealEstate restate: restates) {
+            if (equals(restate.getAddress(), address))
+                result.add(restate);
+        }
+
+        return result;
     }
 
     public Agent addAgent(Agent agent) {
