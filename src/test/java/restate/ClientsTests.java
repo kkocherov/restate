@@ -3,7 +3,10 @@ package restate;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import restate.Helpers;
 
 import static org.junit.Assert.*;
 
@@ -17,17 +20,13 @@ public class ClientsTests {
     @Test
     public void createValidClient() {
         Client client = new Client();
-        List<Contact> contacts = new ArrayList<Contact>();
+        Set<Contact> contacts = new HashSet<Contact>();
         Contact contact = Helpers.randomContact();
         contacts.add(contact);
         client.setContacts(contacts);
         Client result = app.addClient(client);
 
-        assertNotNull(result);
-        assertNotNull(client.getContacts());
-        assertEquals(1, client.getContacts().size());
-        assertEquals(client.getContacts().get(0).type, contact.type);
-        assertEquals(client.getContacts().get(0).value, contact.value);
+        assertTrue(Helpers.equals(client, result));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -44,7 +43,7 @@ public class ClientsTests {
     @Test(expected = IllegalArgumentException.class)
     public void createClientWithInvalidContactType() {
         Client client = new Client();
-        List<Contact> contacts = new ArrayList<Contact>();
+        Set<Contact> contacts = new HashSet<>();
         Contact contact = new Contact(null, "yay");
         contacts.add(contact);
         client.setContacts(contacts);
@@ -54,7 +53,7 @@ public class ClientsTests {
     @Test(expected = IllegalArgumentException.class)
     public void createClientWithInvalidContactValue() {
         Client client = new Client();
-        List<Contact> contacts = new ArrayList<Contact>();
+        Set<Contact> contacts = new HashSet<>();
         Contact contact = new Contact(ContactType.EMAIL, null);
         contacts.add(contact);
         client.setContacts(contacts);
@@ -66,27 +65,19 @@ public class ClientsTests {
         Client client = new Client();
         client.setFirstName("Ivan");
         client.setMiddleName("Ivanov");
-        List<Contact> contacts = new ArrayList<Contact>();
+        Set<Contact> contacts = new HashSet<>();
         Contact contact = Helpers.randomContact();
         contacts.add(contact);
         client.setContacts(contacts);
-        client = app.addClient(client);
+        Client result = app.addClient(client);
 
-        assertNotNull(client);
-        assertEquals("Ivan", client.getFirstName());
-        assertEquals("Ivanov", client.getMiddleName());
-        assertNull(client.getLastName());
-
-        assertNotNull(client.getContacts());
-        assertEquals(1, client.getContacts().size());
-        assertEquals(client.getContacts().get(0).type, contact.type);
-        assertEquals(client.getContacts().get(0).value, contact.value);
+        assertTrue(Helpers.equals(client, result));
     }
 
     @Test
     public void createClientWithMultipleContacts() {
         Client client = new Client();
-        List<Contact> contacts = new ArrayList<Contact>();
+        Set<Contact> contacts = new HashSet<>();
 
         Contact contact1 = Helpers.randomContact();
         Contact contact2 = Helpers.randomContact();
@@ -97,20 +88,8 @@ public class ClientsTests {
         contacts.add(contact3);
 
         client.setContacts(contacts);
-        client = app.addClient(client);
-
-        assertNotNull(client);
-        assertNotNull(client.getContacts());
-        assertEquals(3, client.getContacts().size());
-
-        assertEquals(client.getContacts().get(0).type, contact1.type);
-        assertEquals(client.getContacts().get(0).value, contact1.value);
-
-        assertEquals(client.getContacts().get(1).type, contact2.type);
-        assertEquals(client.getContacts().get(1).value, contact2.value);
-
-        assertEquals(client.getContacts().get(2).type, contact3.type);
-        assertEquals(client.getContacts().get(2).value, contact3.value);
+        Client result = app.addClient(client);
+        assertTrue(Helpers.equals(client, result));
     }
 
     @Test
@@ -120,7 +99,7 @@ public class ClientsTests {
         client.setLastName("Parapam");
         client.setMiddleName("Pararam");
 
-        List<Contact> contacts = new ArrayList<Contact>();
+        Set<Contact> contacts = new HashSet<>();
         Contact contact = Helpers.randomContact();
         contacts.add(contact);
         client.setContacts(contacts);
@@ -131,12 +110,7 @@ public class ClientsTests {
 
         assertNotNull(result);
         assertNull(emptyResult);
-        assertNull(client.getFirstName());
-        assertEquals(client.getLastName(), result.getLastName());
-        assertEquals(client.getMiddleName(), result.getMiddleName());
-        assertEquals(client.getContacts().size(), 1);
-        assertEquals(client.getContacts().get(0).value, contact.value);
-        assertEquals(client.getContacts().get(0).type, contact.type);
+        assertTrue(Helpers.equals(client, result));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -159,8 +133,8 @@ public class ClientsTests {
         Client alice = new Client();
         Client bob = new Client();
 
-        List<Contact> aliceContacts = new ArrayList<Contact>();
-        List<Contact> bobContacts = new ArrayList<Contact>();
+        Set<Contact> aliceContacts = new HashSet<>();
+        Set<Contact> bobContacts = new HashSet<>();
 
         Contact aliceContact = new Contact(ContactType.EMAIL, "1234");
         Contact bobContact = new Contact(ContactType.EMAIL, "1234");
@@ -185,9 +159,9 @@ public class ClientsTests {
         bob.setFirstName("Bob");
         charlie.setFirstName("Charlie");
 
-        List<Contact> aliceContacts = new ArrayList<Contact>();
-        List<Contact> bobContacts = new ArrayList<Contact>();
-        List<Contact> charlieContacts = new ArrayList<Contact>();
+        Set<Contact> aliceContacts = new HashSet<>();
+        Set<Contact> bobContacts = new HashSet<>();
+        Set<Contact> charlieContacts = new HashSet<>();
 
         Contact alicePhone = new Contact(ContactType.PHONE, "95555555555");
         Contact aliceAdditionalPhone = new Contact(ContactType.PHONE, "95555555556");

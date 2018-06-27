@@ -1,8 +1,9 @@
 package restate;
 
 import java.util.List;
+import java.util.Objects;
 
-enum DealKind { RENT, PURCHASE }
+enum DealType { RENT, PURCHASE }
 enum ContactType { EMAIL, PHONE }
 enum DealStage { created, deposit, completed, canceled }
 
@@ -33,6 +34,20 @@ class Contact {
 
     public String toString() {
         return "Contact('"+ this.type +"', '"+ this.value +"')";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Contact contact = (Contact) o;
+        return  getType() == contact.getType() &&
+                Objects.equals(getValue(), contact.getValue());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getType(), getValue());
     }
 }
 
@@ -70,8 +85,8 @@ interface ISupply {
     void setAgent(IAgent agent);
     IAgent getAgent();
 
-    void setKind(DealKind kind);
-    DealKind getKind();
+    void setKind(DealType kind);
+    DealType getKind();
 
     void setActive(boolean active);
     boolean getActive();
@@ -87,8 +102,8 @@ interface IDemand {
     void setAgent(IAgent agent);
     IAgent getAgent();
 
-    void setKind(DealKind kind);
-    DealKind getKind();
+    void setKind(DealType kind);
+    DealType getKind();
 
     void setActive(boolean active);
     boolean getActive();

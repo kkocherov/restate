@@ -1,8 +1,6 @@
 package restate;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 class Coordinate {
     public double latitude;
@@ -18,13 +16,13 @@ class Address {
     public String city;
     public String street;
     public String house;
-    public String apartnemt;
+    public String apartment;
 
-    public Address(String city, String street, String house, String apartnemt) {
+    public Address(String city, String street, String house, String apartment) {
         this.city = city;
         this.street = street;
         this.house = house;
-        this.apartnemt = apartnemt;
+        this.apartment = apartment;
     }
 }
 
@@ -254,6 +252,27 @@ class Apartment extends RealEstate {
     public void setNewBuilding(Boolean newBuilding) {
         this.newBuilding = newBuilding;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Apartment apartment = (Apartment) o;
+        return Objects.equals(floor, apartment.floor) &&
+               Objects.equals(beds, apartment.beds) &&
+               Objects.equals(bathrooms, apartment.bathrooms) &&
+               Objects.equals(rooms, apartment.rooms) &&
+               Objects.equals(totalArea, apartment.totalArea) &&
+               Objects.equals(hasAlarmSystem, apartment.hasAlarmSystem) &&
+               Objects.equals(hasTV, apartment.hasTV) &&
+               Objects.equals(hasInternet, apartment.hasInternet) &&
+               Objects.equals(newBuilding, apartment.newBuilding);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(floor, beds, bathrooms, rooms, totalArea, hasAlarmSystem, hasTV, hasInternet, newBuilding);
+    }
 }
 
 class Land extends RealEstate {
@@ -282,58 +301,87 @@ class Land extends RealEstate {
 }
 
 class Supply {
-    public void setObject(RealEstate object) {
+    private RealEstate restate;
+    private Integer price;
+    private Client client;
+    private Agent agent;
+    private DealType type;
+    private Boolean active;
+    private Date publishedDate;
 
+    public RealEstate getRealEstate() {
+        return restate;
     }
 
-    public RealEstate getObject() {
-        return null;
-    }
-
-    public void setPrice(Integer price) {
-
+    public void setRealEstate(RealEstate restate) {
+        this.restate = restate;
     }
 
     public Integer getPrice() {
-        return null;
+        return price;
     }
 
-    public void setClient(Client client) {
-
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 
     public Client getClient() {
-        return null;
+        return client;
     }
 
-    public void setAgent(Agent agent) {
-
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public Agent getAgent() {
-        return null;
+        return agent;
     }
 
-    public void setKind(DealKind kind) {
-
+    public void setAgent(Agent agent) {
+        this.agent = agent;
     }
 
-    public DealKind getKind() {
-        return null;
+    public DealType getType() {
+        return type;
     }
 
-    public void setActive(boolean active) {
-
+    public void setType(DealType type) {
+        this.type = type;
     }
 
-    public boolean getActive() {
-        return false;
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Date getPublishedDate() {
+        return publishedDate;
+    }
+
+    public void setPublishedDate(Date publishedDate) {
+        this.publishedDate = publishedDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        Supply supply = (Supply) o;
+        return Objects.equals(restate, supply.restate) &&
+                Objects.equals(getPrice(), supply.getPrice()) &&
+                Objects.equals(getClient(), supply.getClient()) &&
+                Objects.equals(getAgent(), supply.getAgent()) &&
+                getType() == supply.getType() &&
+                Objects.equals(getActive(), supply.getActive()) &&
+                Objects.equals(getPublishedDate(), supply.getPublishedDate());
     }
 }
 
 class Demand {
-    public void setRestateType(Class clazz) {
+    Class restateType;
 
+    public void setRestateType(Class clazz) {
     }
 
     public Class getRestateType() {
@@ -356,11 +404,11 @@ class Demand {
         return null;
     }
 
-    public void setKind(DealKind kind) {
+    public void setKind(DealType kind) {
 
     }
 
-    public DealKind getKind() {
+    public DealType getKind() {
         return null;
     }
 
@@ -439,10 +487,10 @@ class Person {
     protected String firstName;
     protected String middleName;
     protected String lastName;
-    protected List<Contact> contacts;
+    protected Set<Contact> contacts;
 
     public Person() {
-        this.contacts = new LinkedList<Contact>();
+        this.contacts = new HashSet<>();
     }
 
     public String getFirstName() {
@@ -469,11 +517,11 @@ class Person {
         this.lastName = lastName;
     }
 
-    public List<Contact> getContacts() {
+    public Set<Contact> getContacts() {
         return contacts;
     }
 
-    public void setContacts(List<Contact> contacts) {
+    public void setContacts(Set<Contact> contacts) {
         this.contacts = contacts;
     }
 }
@@ -485,10 +533,14 @@ class Client extends Person {
 }
 
 class Agent extends Person {
-    public void setCommission(double percent) { }
+    private Double commission;
 
-    public double getCommission() {
-        return 0;
+    public void setCommission(double commission) {
+        this.commission = commission;
+    }
+
+    public Double getCommission() {
+        return commission;
     }
 
     public Agent() {
@@ -498,11 +550,19 @@ class Agent extends Person {
 
 class RestateApplication {
     List<Client> clients;
+    List<Agent> agents;
     List<RealEstate> restates;
+    List<Supply> supplies;
+    List<Demand> demands;
+    List<Deal> deals;
 
     public RestateApplication() {
         this.clients = new LinkedList<Client>();
+        this.agents = new LinkedList<Agent>();
         this.restates = new LinkedList<RealEstate>();
+        this.supplies = new LinkedList<Supply>();
+        this.demands= new LinkedList<Demand>();
+        this.deals = new LinkedList<Deal>();
     }
 
     public Client addClient(Client client) {
@@ -560,7 +620,7 @@ class RestateApplication {
 
     private boolean equals(Address address1, Address address2) {
         return address2.city.equals(address1.city) && address2.street.equals(address1.street) &&
-               address2.house.equals(address1.house) && address2.apartnemt.equals(address1.apartnemt);
+               address2.house.equals(address1.house) && address2.apartment.equals(address1.apartment);
     }
 
     public List<RealEstate> findRealEstateInsideCircle(Coordinate circleCenter, Double circleRadius) {
@@ -594,7 +654,12 @@ class RestateApplication {
     }
 
     public Agent addAgent(Agent agent) {
-        return null;
+        if (agent.getCommission() != null && (agent.getCommission() < 0 || agent.getCommission() > 1))
+            throw new IllegalArgumentException();
+
+        agents.add(agent);
+
+        return agent;
     }
 
     public Demand publishDemand(Demand demand) {
@@ -618,19 +683,72 @@ class RestateApplication {
     }
 
     public Supply publishSupply(Supply supply) {
-        return null;
+        if (supply.getClient() == null || supply.getPrice() == null ||
+            supply.getRealEstate() == null || supply.getType() == null)
+            throw new IllegalArgumentException();
+
+        if (findRealEstateWithAddress(supply.getRealEstate().getAddress()) == null)
+            throw new IllegalArgumentException();
+
+        for (Contact contact: supply.getClient().getContacts()) {
+            if (searchClient(contact) == null)
+                throw new IllegalArgumentException();
+            else
+                break;
+        }
+
+        if (supply.getAgent() != null) {
+            boolean found = false;
+
+            for (Agent agent: agents) {
+                if (agent == supply.getAgent()) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found)
+                throw new IllegalArgumentException();
+        }
+
+        supply.setPublishedDate(new Date());
+        supply.setActive(true);
+        supplies.add(supply);
+
+        return supply;
     }
 
     public Supply cancelSupply(Supply supply) {
-        return null;
+        for (Supply s: supplies) {
+            if (s == supply) {
+                supply.setActive(false);
+                return supply;
+            }
+        }
+
+        throw new IllegalArgumentException();
     }
 
     public List<Supply> suppliesForClient(Client client) {
-        return null;
+        List<Supply> result = new LinkedList<>();
+
+        for (Supply supply: supplies) {
+            if (supply.getClient().getContacts().equals(client.getContacts()))
+                result.add(supply);
+        }
+
+        return result;
     }
 
     public List<Supply> suppliesForAgent(Agent agent) {
-        return null;
+        List<Supply> result = new LinkedList<>();
+
+        for (Supply supply: supplies) {
+            if (supply.getAgent() == agent)
+                result.add(supply);
+        }
+
+        return result;
     }
 
     public List<Supply> suppliesForDemand(Demand demand) {
