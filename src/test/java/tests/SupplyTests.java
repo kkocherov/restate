@@ -1,11 +1,12 @@
-package restate;
+package tests;
 
 import org.junit.Test;
+import restate.*;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static restate.Helpers.*;
+import static tests.Helpers.*;
 
 public class SupplyTests {
     private RestateApplication app;
@@ -25,14 +26,14 @@ public class SupplyTests {
         app.addClient(client);
         app.addAgent(agent);
 
-        supply.setRealEstate(apartment);
-        supply.setType(DealType.PURCHASE);
-        supply.setPrice(2 * 1000 * 1000);
-        supply.setAgent(agent);
-        supply.setClient(client);
+        supply.restate = apartment;
+        supply.dealType = DealType.PURCHASE;
+        supply.price = 2 * 1000 * 1000;
+        supply.agent = agent;
+        supply.client = client;
         Supply published = app.publishSupply(supply);
 
-        assertTrue(Helpers.equals(published, supply));
+        assertEquals(published, supply);
     }
 
     @Test
@@ -42,20 +43,22 @@ public class SupplyTests {
         Client client = randomClient();
         Agent agent = randomAgent();
 
+        apartment.id = 4L;
+
         app.addRealEstate(apartment);
         app.addClient(client);
         app.addAgent(agent);
 
-        supply.setRealEstate(apartment);
-        supply.setType(DealType.RENT);
-        supply.setPrice(15 * 1000);
-        supply.setAgent(agent);
-        supply.setClient(client);
+        supply.restate = apartment;
+        supply.dealType = DealType.RENT;
+        supply.price = 15 * 1000;
+        supply.agent = agent;
+        supply.client = client;
         Supply published = app.publishSupply(supply);
 
         assertNotNull(published);
-        assertTrue(published.getActive());
-        assertNotNull(published.getPublishedDate());
+        assertTrue(published.active);
+        assertNotNull(published.publishedDate);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -64,9 +67,9 @@ public class SupplyTests {
         Apartment apartment = randomApartment();
         app.addRealEstate(apartment);
 
-        supply.setRealEstate(apartment);
-        supply.setType(DealType.RENT);
-        supply.setPrice(15 * 1000);
+        supply.restate = apartment;
+        supply.dealType = DealType.RENT;
+        supply.price = 15 * 1000;
         app.publishSupply(supply);
     }
 
@@ -76,9 +79,9 @@ public class SupplyTests {
         Client client = randomClient();
         app.addClient(client);
 
-        supply.setClient(client);
-        supply.setType(DealType.PURCHASE);
-        supply.setPrice(1000 * 1000);
+        supply.client = client;
+        supply.dealType = DealType.PURCHASE;
+        supply.price = 1000 * 1000;
         app.publishSupply(supply);
     }
 
@@ -90,9 +93,9 @@ public class SupplyTests {
         app.addRealEstate(apartment);
         app.addClient(client);
 
-        supply.setClient(client);
-        supply.setType(DealType.PURCHASE);
-        supply.setRealEstate(apartment);
+        supply.client = client;
+        supply.dealType = DealType.PURCHASE;
+        supply.restate = apartment;
         app.publishSupply(supply);
     }
 
@@ -104,9 +107,9 @@ public class SupplyTests {
         app.addRealEstate(apartment);
         app.addClient(client);
 
-        supply.setClient(client);
-        supply.setPrice(1000 * 1000);
-        supply.setRealEstate(apartment);
+        supply.client = client;
+        supply.price = 1000 * 1000;
+        supply.restate = apartment;
         app.publishSupply(supply);
     }
 
@@ -117,10 +120,10 @@ public class SupplyTests {
         Apartment apartment = randomApartment();
         app.addClient(client);
 
-        supply.setClient(client);
-        supply.setType(DealType.PURCHASE);
-        supply.setPrice(4 * 1000 * 1000);
-        supply.setRealEstate(apartment);
+        supply.client = client;
+        supply.dealType = DealType.PURCHASE;
+        supply.price = 4 * 1000 * 1000;
+        supply.restate = apartment;
         app.publishSupply(supply);
     }
 
@@ -130,10 +133,10 @@ public class SupplyTests {
         Client client = randomClient();
         Apartment apartment = randomApartment();
 
-        supply.setClient(client);
-        supply.setType(DealType.PURCHASE);
-        supply.setPrice(9 * 1000 * 1000);
-        supply.setRealEstate(apartment);
+        supply.client = client;
+        supply.dealType = DealType.PURCHASE;
+        supply.price = 9 * 1000 * 1000;
+        supply.restate = apartment;
 
         app.addRealEstate(apartment);
         app.publishSupply(supply);
@@ -146,11 +149,11 @@ public class SupplyTests {
         Agent agent = randomAgent();
         Apartment apartment = randomApartment();
 
-        supply.setClient(client);
-        supply.setAgent(agent);
-        supply.setType(DealType.RENT);
-        supply.setPrice(18 * 1000);
-        supply.setRealEstate(apartment);
+        supply.client = client;
+        supply.agent = agent;
+        supply.dealType = DealType.RENT;
+        supply.price = 18 * 1000;
+        supply.restate = apartment;
 
         app.addRealEstate(apartment);
         app.addClient(client);
@@ -166,13 +169,13 @@ public class SupplyTests {
         app.addRealEstate(apartment);
         app.addClient(client);
 
-        supply.setClient(client);
-        supply.setType(DealType.PURCHASE);
-        supply.setPrice(9 * 1000 * 1000);
-        supply.setRealEstate(apartment);
+        supply.client = client;
+        supply.dealType = DealType.PURCHASE;
+        supply.price = 9 * 1000 * 1000;
+        supply.restate = apartment;
         Supply result = app.publishSupply(supply);
         result = app.cancelSupply(result);
-        assertFalse(result.getActive());
+        assertFalse(result.active);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -183,10 +186,10 @@ public class SupplyTests {
         app.addRealEstate(apartment);
         app.addClient(client);
 
-        supply.setClient(client);
-        supply.setType(DealType.RENT);
-        supply.setPrice(25 * 1000);
-        supply.setRealEstate(apartment);
+        supply.client = client;
+        supply.dealType = DealType.RENT;
+        supply.price = 25 * 1000;
+        supply.restate = apartment;
         app.cancelSupply(supply);
     }
 
@@ -196,44 +199,44 @@ public class SupplyTests {
         Supply supply2 = randomSupply();
         Supply supply3 = randomSupply();
 
-        app.addAgent(supply1.getAgent());
-        app.addAgent(supply2.getAgent());
-        app.addAgent(supply3.getAgent());
+        app.addAgent(supply1.agent);
+        app.addAgent(supply2.agent);
+        app.addAgent(supply3.agent);
 
-        app.addClient(supply1.getClient());
-        app.addClient(supply2.getClient());
-        app.addClient(supply3.getClient());
+        app.addClient(supply1.client);
+        app.addClient(supply2.client);
+        app.addClient(supply3.client);
 
-        app.addRealEstate(supply1.getRealEstate());
-        app.addRealEstate(supply2.getRealEstate());
-        app.addRealEstate(supply3.getRealEstate());
+        app.addRealEstate(supply1.restate);
+        app.addRealEstate(supply2.restate);
+        app.addRealEstate(supply3.restate);
 
-        List<Supply> supplies = app.suppliesForClient(supply1.getClient());
+        List<Supply> supplies = app.suppliesForClient(supply1.client);
         assertNotNull(supplies);
 
-        assertEquals(app.suppliesForClient(supply1.getClient()).size(), 0);
-        assertEquals(app.suppliesForClient(supply2.getClient()).size(), 0);
-        assertEquals(app.suppliesForClient(supply3.getClient()).size(), 0);
+        assertEquals(app.suppliesForClient(supply1.client).size(), 0);
+        assertEquals(app.suppliesForClient(supply2.client).size(), 0);
+        assertEquals(app.suppliesForClient(supply3.client).size(), 0);
 
         app.publishSupply(supply1);
 
-        assertEquals(app.suppliesForClient(supply1.getClient()).size(), 1);
-        assertEquals(app.suppliesForClient(supply2.getClient()).size(), 0);
-        assertEquals(app.suppliesForClient(supply3.getClient()).size(), 0);
+        assertEquals(app.suppliesForClient(supply1.client).size(), 1);
+        assertEquals(app.suppliesForClient(supply2.client).size(), 0);
+        assertEquals(app.suppliesForClient(supply3.client).size(), 0);
 
 
         app.publishSupply(supply3);
 
-        assertEquals(app.suppliesForClient(supply1.getClient()).size(), 1);
-        assertEquals(app.suppliesForClient(supply2.getClient()).size(), 0);
-        assertEquals(app.suppliesForClient(supply3.getClient()).size(), 1);
+        assertEquals(app.suppliesForClient(supply1.client).size(), 1);
+        assertEquals(app.suppliesForClient(supply2.client).size(), 0);
+        assertEquals(app.suppliesForClient(supply3.client).size(), 1);
 
-        supply2.setClient(supply1.getClient());
+        supply2.client = supply1.client;
         app.publishSupply(supply2);
 
-        assertEquals(app.suppliesForClient(supply1.getClient()).size(), 2);
-        assertEquals(app.suppliesForClient(supply2.getClient()).size(), 2);
-        assertEquals(app.suppliesForClient(supply3.getClient()).size(), 1);
+        assertEquals(app.suppliesForClient(supply1.client).size(), 2);
+        assertEquals(app.suppliesForClient(supply2.client).size(), 2);
+        assertEquals(app.suppliesForClient(supply3.client).size(), 1);
     }
 
     @Test
@@ -241,29 +244,29 @@ public class SupplyTests {
         Supply supply1 = randomSupply();
         Supply supply2 = randomSupply();
 
-        app.addAgent(supply1.getAgent());
-        app.addAgent(supply2.getAgent());
+        app.addAgent(supply1.agent);
+        app.addAgent(supply2.agent);
 
-        app.addClient(supply1.getClient());
-        app.addClient(supply2.getClient());
+        app.addClient(supply1.client);
+        app.addClient(supply2.client);
 
-        app.addRealEstate(supply1.getRealEstate());
-        app.addRealEstate(supply2.getRealEstate());
+        app.addRealEstate(supply1.restate);
+        app.addRealEstate(supply2.restate);
 
-        List<Supply> supplies = app.suppliesForAgent(supply1.getAgent());
+        List<Supply> supplies = app.suppliesForAgent(supply1.agent);
         assertNotNull(supplies);
 
-        assertEquals(app.suppliesForAgent(supply1.getAgent()).size(), 0);
-        assertEquals(app.suppliesForAgent(supply2.getAgent()).size(), 0);
+        assertEquals(app.suppliesForAgent(supply1.agent).size(), 0);
+        assertEquals(app.suppliesForAgent(supply2.agent).size(), 0);
 
         app.publishSupply(supply1);
 
-        assertEquals(app.suppliesForAgent(supply1.getAgent()).size(), 1);
-        assertEquals(app.suppliesForAgent(supply2.getAgent()).size(), 0);
+        assertEquals(app.suppliesForAgent(supply1.agent).size(), 1);
+        assertEquals(app.suppliesForAgent(supply2.agent).size(), 0);
 
         app.publishSupply(supply2);
 
-        assertEquals(app.suppliesForAgent(supply1.getAgent()).size(), 1);
-        assertEquals(app.suppliesForAgent(supply2.getAgent()).size(), 1);
+        assertEquals(app.suppliesForAgent(supply1.agent).size(), 1);
+        assertEquals(app.suppliesForAgent(supply2.agent).size(), 1);
     }
 }

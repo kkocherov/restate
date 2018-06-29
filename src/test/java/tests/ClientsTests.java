@@ -1,12 +1,13 @@
-package restate;
+package tests;
 
 import org.junit.Test;
+import restate.Client;
+import restate.Contact;
+import restate.ContactType;
+import restate.RestateApplication;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import restate.Helpers;
 
 import static org.junit.Assert.*;
 
@@ -23,10 +24,10 @@ public class ClientsTests {
         Set<Contact> contacts = new HashSet<Contact>();
         Contact contact = Helpers.randomContact();
         contacts.add(contact);
-        client.setContacts(contacts);
+        client.contacts = contacts;
         Client result = app.addClient(client);
 
-        assertTrue(Helpers.equals(client, result));
+        assertEquals(client, result);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -46,7 +47,7 @@ public class ClientsTests {
         Set<Contact> contacts = new HashSet<>();
         Contact contact = new Contact(null, "yay");
         contacts.add(contact);
-        client.setContacts(contacts);
+        client.contacts = contacts;
         app.addClient(client);
     }
 
@@ -56,22 +57,22 @@ public class ClientsTests {
         Set<Contact> contacts = new HashSet<>();
         Contact contact = new Contact(ContactType.EMAIL, null);
         contacts.add(contact);
-        client.setContacts(contacts);
+        client.contacts = contacts;
         app.addClient(client);
     }
 
     @Test
     public void createValidClientWithData() {
         Client client = new Client();
-        client.setFirstName("Ivan");
-        client.setMiddleName("Ivanov");
+        client.firstName = "Ivan";
+        client.middleName = "Ivanov";
         Set<Contact> contacts = new HashSet<>();
         Contact contact = Helpers.randomContact();
         contacts.add(contact);
-        client.setContacts(contacts);
+        client.contacts = contacts;
         Client result = app.addClient(client);
 
-        assertTrue(Helpers.equals(client, result));
+        assertEquals(client, result);
     }
 
     @Test
@@ -87,22 +88,22 @@ public class ClientsTests {
         contacts.add(contact2);
         contacts.add(contact3);
 
-        client.setContacts(contacts);
+        client.contacts = contacts;
         Client result = app.addClient(client);
-        assertTrue(Helpers.equals(client, result));
+        assertEquals(client, result);
     }
 
     @Test
     public void searchCreatedClient() {
         Client client = new Client();
 
-        client.setLastName("Parapam");
-        client.setMiddleName("Pararam");
+        client.lastName = "Parapam";
+        client.middleName = "Pararam";
 
         Set<Contact> contacts = new HashSet<>();
         Contact contact = Helpers.randomContact();
         contacts.add(contact);
-        client.setContacts(contacts);
+        client.contacts = contacts;
         app.addClient(client);
 
         Client result = app.searchClient(contact);
@@ -110,7 +111,7 @@ public class ClientsTests {
 
         assertNotNull(result);
         assertNull(emptyResult);
-        assertTrue(Helpers.equals(client, result));
+        assertEquals(client, result);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -142,8 +143,8 @@ public class ClientsTests {
         aliceContacts.add(aliceContact);
         bobContacts.add(bobContact);
 
-        alice.setContacts(aliceContacts);
-        bob.setContacts(bobContacts);
+        alice.contacts = aliceContacts;
+        bob.contacts = bobContacts;
 
         app.addClient(alice);
         app.addClient(bob);
@@ -155,9 +156,9 @@ public class ClientsTests {
         Client bob = new Client();
         Client charlie = new Client();
 
-        alice.setFirstName("Alice");
-        bob.setFirstName("Bob");
-        charlie.setFirstName("Charlie");
+        alice.firstName = "Alice";
+        bob.firstName = "Bob";
+        charlie.firstName = "Charlie";
 
         Set<Contact> aliceContacts = new HashSet<>();
         Set<Contact> bobContacts = new HashSet<>();
@@ -183,9 +184,9 @@ public class ClientsTests {
         charlieContacts.add(charliePhone);
         charlieContacts.add(charlieEmail);
 
-        alice.setContacts(aliceContacts);
-        bob.setContacts(bobContacts);
-        charlie.setContacts(charlieContacts);
+        alice.contacts = aliceContacts;
+        bob.contacts = bobContacts;
+        charlie.contacts = charlieContacts;
 
         alice = app.addClient(alice);
         bob = app.addClient(bob);
@@ -213,14 +214,14 @@ public class ClientsTests {
         assertNotNull(charlie1);
         assertNotNull(charlie2);
 
-        assertEquals(alice.getFirstName(), alice1.getFirstName());
-        assertEquals(alice.getFirstName(), alice2.getFirstName());
-        assertEquals(alice.getFirstName(), alice3.getFirstName());
+        assertEquals(alice.firstName, alice1.firstName);
+        assertEquals(alice.firstName, alice2.firstName);
+        assertEquals(alice.firstName, alice3.firstName);
 
-        assertEquals(bob.getFirstName(), bob1.getFirstName());
-        assertEquals(bob.getFirstName(), bob2.getFirstName());
+        assertEquals(bob.firstName, bob1.firstName);
+        assertEquals(bob.firstName, bob2.firstName);
 
-        assertEquals(charlie.getFirstName(), charlie1.getFirstName());
-        assertEquals(charlie.getFirstName(), charlie2.getFirstName());
+        assertEquals(charlie.firstName, charlie1.firstName);
+        assertEquals(charlie.firstName, charlie2.firstName);
     }
 }

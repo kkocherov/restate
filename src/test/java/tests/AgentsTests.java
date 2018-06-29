@@ -1,6 +1,9 @@
-package restate;
+package tests;
 
 import org.junit.Test;
+import restate.Agent;
+import restate.Contact;
+import restate.RestateApplication;
 
 import java.util.*;
 
@@ -16,29 +19,29 @@ public class AgentsTests {
     @Test
     public void createAgentWithData() {
         Agent agent = new Agent();
-        agent.setFirstName("Sarah");
-        agent.setLastName("Black");
-        agent.setCommission(.07);
+        agent.firstName = "Sarah";
+        agent.lastName = "Black";
+        agent.commission = .07;
         Set<Contact> contacts = new HashSet<Contact>();
         Contact contact = Helpers.randomContact();
         contacts.add(contact);
-        agent.setContacts(contacts);
+        agent.contacts = contacts;
         Agent result = app.addAgent(agent);
 
-        assertTrue(Helpers.equals(agent, result));
+        assertEquals(agent, result);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void createAgentWithNegativeCommissionValue() {
         Agent agent = new Agent();
-        agent.setCommission(-0.5);
+        agent.commission = -0.5;
         app.addAgent(agent);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void createAgentWithInvalidCommissionValue() {
         Agent agent = new Agent();
-        agent.setCommission(1.5);
+        agent.commission = 1.5;
         app.addAgent(agent);
     }
 }

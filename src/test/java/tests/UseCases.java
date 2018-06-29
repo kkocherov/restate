@@ -1,12 +1,11 @@
-package restate;
+package tests;
 
 import org.junit.Test;
+import restate.*;
 
 import java.util.List;
 
-import static restate.Helpers.randomAgent;
-import static restate.Helpers.randomClient;
-import static restate.Helpers.randomSupply;
+import static tests.Helpers.*;
 
 public class UseCases {
     @Test
@@ -18,13 +17,13 @@ public class UseCases {
         Agent agent1 = randomAgent();
         agent1 = app.addAgent(agent1);
 
-        Supply supply = new Supply();
+        Supply<Apartment> supply = new Supply<>();
         Apartment apartment = new Apartment(new Address("Москва", "Тверская", "2", "24"));
-        supply.setRealEstate(apartment);
-        supply.setType(DealType.PURCHASE);
-        supply.setPrice(2 * 1000 * 1000);
-        supply.setAgent(agent1);
-        supply.setClient(seller);
+        supply.restate = apartment;
+        supply.dealType = DealType.PURCHASE;
+        supply.price = 2 * 1000 * 1000;
+        supply.agent = agent1;
+        supply.client = seller;
 
         app.addRealEstate(apartment);
         app.publishSupply(supply);
@@ -34,10 +33,10 @@ public class UseCases {
         Agent agent2 = randomAgent();
         agent2 = app.addAgent(agent2);
 
-        Demand demand = new Demand();
-        demand.setKind(DealType.PURCHASE);
-        demand.setAgent(agent2);
-        demand.setClient(buyer);
+        Demand demand = new ApartmentDemand();
+        demand.dealType = DealType.PURCHASE;
+        demand.agent = agent2;
+        demand.client = buyer;
         demand = app.publishDemand(demand);
 
         Deal deal = new Deal();
@@ -55,14 +54,12 @@ public class UseCases {
 
         Supply supply = randomSupply();
 
-        app.addClient(supply.getClient());
-        app.addAgent(supply.getAgent());
-        app.addRealEstate(supply.getRealEstate());
+        app.addClient(supply.client);
+        app.addAgent(supply.agent);
+        app.addRealEstate(supply.restate);
         app.publishSupply(supply);
 
-        Demand demand =  new Demand();
-        demand.setRestateType(Apartment.class);
-
-        List<Supply> supplies = app.suppliesForDemand(demand);
+        Demand<Apartment> demand = new ApartmentDemand();
+        List<Supply<Apartment>> supplies = app.suppliesForDemand(demand);
     }
 }

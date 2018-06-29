@@ -2,553 +2,7 @@ package restate;
 
 import java.util.*;
 
-class Coordinate {
-    public double latitude;
-    public double longitude;
-
-    public Coordinate(Double latitude, Double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-}
-
-class Address {
-    public String city;
-    public String street;
-    public String house;
-    public String apartment;
-
-    public Address(String city, String street, String house, String apartment) {
-        this.city = city;
-        this.street = street;
-        this.house = house;
-        this.apartment = apartment;
-    }
-}
-
-abstract class RealEstate {
-    protected Address address;
-    protected Coordinate coordinate;
-
-    public RealEstate(Address address) {
-        this.address = address;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public Coordinate getCoordinate() {
-        return coordinate;
-    }
-
-    public void setCoordinate(Coordinate coordinate) {
-        this.coordinate = coordinate;
-    }
-}
-
-class House extends RealEstate {
-    private Integer totalFloors;
-    private Integer builtYear;
-    private Integer beds;
-    private Integer bathrooms;
-    private Integer rooms;
-    private Double houseArea; // площадь дома
-    private Double landArea; // площадь участка
-    private Boolean surveyed; // проведено межевание
-    private Boolean hasGas;
-    private Boolean hasElectricity;
-    private Boolean hasWater;
-    private Boolean hasHeating; // отопление
-
-    public House(Address address) {
-        super(address);
-    }
-
-    public Integer getTotalFloors() {
-        return totalFloors;
-    }
-
-    public void setTotalFloors(Integer totalFloors) {
-        this.totalFloors = totalFloors;
-    }
-
-    public Integer getBuiltYear() {
-        return builtYear;
-    }
-
-    public void setBuiltYear(Integer builtYear) {
-        this.builtYear = builtYear;
-    }
-
-    public Integer getBeds() {
-        return beds;
-    }
-
-    public void setBeds(Integer beds) {
-        this.beds = beds;
-    }
-
-    public Integer getBathrooms() {
-        return bathrooms;
-    }
-
-    public void setBathrooms(Integer bathrooms) {
-        this.bathrooms = bathrooms;
-    }
-
-    public Integer getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(Integer rooms) {
-        this.rooms = rooms;
-    }
-
-    public Double getHouseArea() {
-        return houseArea;
-    }
-
-    public void setHouseArea(Double houseArea) {
-        this.houseArea = houseArea;
-    }
-
-    public Double getLandArea() {
-        return landArea;
-    }
-
-    public void setLandArea(Double landArea) {
-        this.landArea = landArea;
-    }
-
-    public Boolean getSurveyed() {
-        return surveyed;
-    }
-
-    public void setSurveyed(Boolean surveyed) {
-        this.surveyed = surveyed;
-    }
-
-    public Boolean getHasGas() {
-        return hasGas;
-    }
-
-    public void setHasGas(Boolean hasGas) {
-        this.hasGas = hasGas;
-    }
-
-    public Boolean getHasElectricity() {
-        return hasElectricity;
-    }
-
-    public void setHasElectricity(Boolean hasElectricity) {
-        this.hasElectricity = hasElectricity;
-    }
-
-    public Boolean getHasWater() {
-        return hasWater;
-    }
-
-    public void setHasWater(Boolean hasWater) {
-        this.hasWater = hasWater;
-    }
-
-    public Boolean getHasHeating() {
-        return hasHeating;
-    }
-
-    public void setHasHeating(Boolean hasHeating) {
-        this.hasHeating = hasHeating;
-    }
-}
-
-class Apartment extends RealEstate {
-    private Integer floor;
-    private Integer beds;
-    private Integer bathrooms;
-    private Integer rooms;
-    private Double totalArea;
-    private Boolean hasAlarmSystem; // домофон
-    private Boolean hasTV;
-    private Boolean hasInternet;
-    private Boolean newBuilding; // в новостройке
-
-    public Apartment(Address address) {
-        super(address);
-    }
-
-    public Integer getFloor() {
-        return floor;
-    }
-
-    public void setFloor(Integer floor) {
-        this.floor = floor;
-    }
-
-    public Integer getBeds() {
-        return beds;
-    }
-
-    public void setBeds(Integer beds) {
-        this.beds = beds;
-    }
-
-    public Integer getBathrooms() {
-        return bathrooms;
-    }
-
-    public void setBathrooms(Integer bathrooms) {
-        this.bathrooms = bathrooms;
-    }
-
-    public Integer getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(Integer rooms) {
-        this.rooms = rooms;
-    }
-
-    public Double getTotalArea() {
-        return totalArea;
-    }
-
-    public void setTotalArea(Double totalArea) {
-        this.totalArea = totalArea;
-    }
-
-    public Boolean getHasAlarmSystem() {
-        return hasAlarmSystem;
-    }
-
-    public void setHasAlarmSystem(Boolean hasAlarmSystem) {
-        this.hasAlarmSystem = hasAlarmSystem;
-    }
-
-    public Boolean getHasTV() {
-        return hasTV;
-    }
-
-    public void setHasTV(Boolean hasTV) {
-        this.hasTV = hasTV;
-    }
-
-    public Boolean getHasInternet() {
-        return hasInternet;
-    }
-
-    public void setHasInternet(Boolean hasInternet) {
-        this.hasInternet = hasInternet;
-    }
-
-    public Boolean getNewBuilding() {
-        return newBuilding;
-    }
-
-    public void setNewBuilding(Boolean newBuilding) {
-        this.newBuilding = newBuilding;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Apartment apartment = (Apartment) o;
-        return Objects.equals(floor, apartment.floor) &&
-               Objects.equals(beds, apartment.beds) &&
-               Objects.equals(bathrooms, apartment.bathrooms) &&
-               Objects.equals(rooms, apartment.rooms) &&
-               Objects.equals(totalArea, apartment.totalArea) &&
-               Objects.equals(hasAlarmSystem, apartment.hasAlarmSystem) &&
-               Objects.equals(hasTV, apartment.hasTV) &&
-               Objects.equals(hasInternet, apartment.hasInternet) &&
-               Objects.equals(newBuilding, apartment.newBuilding);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(floor, beds, bathrooms, rooms, totalArea, hasAlarmSystem, hasTV, hasInternet, newBuilding);
-    }
-}
-
-class Land extends RealEstate {
-    private double area;
-    private Boolean surveyed; // проведено межевание
-
-    public Land(Address address) {
-        super(address);
-    }
-
-    public double getArea() {
-        return area;
-    }
-
-    public void setArea(double area) {
-        this.area = area;
-    }
-
-    public Boolean getSurveyed() {
-        return surveyed;
-    }
-
-    public void setSurveyed(Boolean surveyed) {
-        this.surveyed = surveyed;
-    }
-}
-
-class Supply {
-    private RealEstate restate;
-    private Integer price;
-    private Client client;
-    private Agent agent;
-    private DealType type;
-    private Boolean active;
-    private Date publishedDate;
-
-    public RealEstate getRealEstate() {
-        return restate;
-    }
-
-    public void setRealEstate(RealEstate restate) {
-        this.restate = restate;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public Agent getAgent() {
-        return agent;
-    }
-
-    public void setAgent(Agent agent) {
-        this.agent = agent;
-    }
-
-    public DealType getType() {
-        return type;
-    }
-
-    public void setType(DealType type) {
-        this.type = type;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    public Date getPublishedDate() {
-        return publishedDate;
-    }
-
-    public void setPublishedDate(Date publishedDate) {
-        this.publishedDate = publishedDate;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        Supply supply = (Supply) o;
-        return Objects.equals(restate, supply.restate) &&
-                Objects.equals(getPrice(), supply.getPrice()) &&
-                Objects.equals(getClient(), supply.getClient()) &&
-                Objects.equals(getAgent(), supply.getAgent()) &&
-                getType() == supply.getType() &&
-                Objects.equals(getActive(), supply.getActive()) &&
-                Objects.equals(getPublishedDate(), supply.getPublishedDate());
-    }
-}
-
-class Demand {
-    Class restateType;
-
-    public void setRestateType(Class clazz) {
-    }
-
-    public Class getRestateType() {
-        return null;
-    }
-
-    public void setClient(Client client) {
-
-    }
-
-    public Client getClient() {
-        return null;
-    }
-
-    public void setAgent(Agent agent) {
-
-    }
-
-    public Agent getAgent() {
-        return null;
-    }
-
-    public void setKind(DealType kind) {
-
-    }
-
-    public DealType getKind() {
-        return null;
-    }
-
-    public void setActive(boolean active) {
-
-    }
-
-    public boolean getActive() {
-        return false;
-    }
-}
-
-class Deal {
-    public Supply getSupply() {
-        return null;
-    }
-
-    public void setSupply(Supply supply) {
-
-    }
-
-    public Demand getDemand() {
-        return null;
-    }
-
-    public void setDemand(Demand supply) {
-
-    }
-
-    public DealStage getStage() {
-        return null;
-    }
-
-    public void setStage(DealStage stage) {
-
-    }
-
-    public Integer getDeposit() {
-        return null;
-    }
-
-    public void setDeposit(Integer deposit) {
-
-    }
-
-    public Integer getPrice() {
-        return null;
-    }
-
-    public void setPrice(Integer price) {
-
-    }
-
-    public int supplyClientCommission() {
-        return 0;
-    }
-
-    public int demandClientCommission() {
-        return 0;
-    }
-
-    public int supplyAgentReward() {
-        return 0;
-    }
-
-    public int demandAgentReward() {
-        return 0;
-    }
-
-    public int agencyReward() {
-        return 0;
-    }
-}
-
-class Person {
-    protected String firstName;
-    protected String middleName;
-    protected String lastName;
-    protected Set<Contact> contacts;
-
-    public Person() {
-        this.contacts = new HashSet<>();
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Set<Contact> getContacts() {
-        return contacts;
-    }
-
-    public void setContacts(Set<Contact> contacts) {
-        this.contacts = contacts;
-    }
-}
-
-class Client extends Person {
-    public Client() {
-        super();
-    }
-}
-
-class Agent extends Person {
-    private Double commission;
-
-    public void setCommission(double commission) {
-        this.commission = commission;
-    }
-
-    public Double getCommission() {
-        return commission;
-    }
-
-    public Agent() {
-        super();
-    }
-}
-
-class RestateApplication {
+public class RestateApplication {
     List<Client> clients;
     List<Agent> agents;
     List<RealEstate> restates;
@@ -565,11 +19,12 @@ class RestateApplication {
         this.deals = new LinkedList<Deal>();
     }
 
+
     public Client addClient(Client client) {
-        if (client == null || client.getContacts().size() == 0)
+        if (client == null || client.contacts.size() == 0)
             throw new IllegalArgumentException();
 
-        for (Contact contact : client.getContacts()) {
+        for (Contact contact : client.contacts) {
             if (contact.type == null || contact.value == null)
                 throw new IllegalArgumentException();
 
@@ -582,12 +37,42 @@ class RestateApplication {
         return client;
     }
 
+    public <T extends RealEstate> T addRealEstate(T realEstate) {
+        try {
+            realEstate = (T) realEstate.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+
+        realEstate.id = 4L;
+
+        if (realEstate.address == null)
+            throw new IllegalArgumentException();
+
+        if (findRealEstateWithAddress(realEstate.address) != null) {
+            throw new IllegalArgumentException();
+        }
+
+        this.restates.add(realEstate);
+
+        return realEstate;
+    }
+
+    public Agent addAgent(Agent agent) {
+        if (agent.commission != null && (agent.commission < 0 || agent.commission > 1))
+            throw new IllegalArgumentException();
+
+        agents.add(agent);
+
+        return agent;
+    }
+
     public Client searchClient(Contact contact) {
         if (contact == null || contact.type == null || contact.value == null)
             throw new IllegalArgumentException();
 
         for (Client client : this.clients) {
-            for (Contact clientContact : client.getContacts()) {
+            for (Contact clientContact : client.contacts) {
                 if (contact.type.equals(clientContact.type) && contact.value.equals(clientContact.value))
                     return client;
             }
@@ -596,31 +81,14 @@ class RestateApplication {
         return null;
     }
 
-    public <T extends RealEstate> T addRealEstate(T restate) {
-        if (restate.getAddress() == null)
-            throw new IllegalArgumentException();
-
-        if (findRealEstateWithAddress(restate.getAddress()) != null) {
-            throw new IllegalArgumentException();
-        }
-
-        this.restates.add(restate);
-
-        return restate;
-    }
 
     public RealEstate findRealEstateWithAddress(Address address) {
         for (RealEstate restate : this.restates) {
-            if (equals(address, restate.getAddress()))
+            if (address.equals(restate.address))
                 return restate;
         }
 
         return null;
-    }
-
-    private boolean equals(Address address1, Address address2) {
-        return address2.city.equals(address1.city) && address2.street.equals(address1.street) &&
-               address2.house.equals(address1.house) && address2.apartment.equals(address1.apartment);
     }
 
     public List<RealEstate> findRealEstateInsideCircle(Coordinate circleCenter, Double circleRadius) {
@@ -631,7 +99,7 @@ class RestateApplication {
             throw new IllegalArgumentException();
 
         for (RealEstate restate: restates) {
-            if (equals(restate.getAddress(), address))
+            if (restate.address.equals(address))
                 result.add(restate);
         }
 
@@ -646,62 +114,36 @@ class RestateApplication {
             throw new IllegalArgumentException();
 
         for (RealEstate restate: restates) {
-            if (equals(restate.getAddress(), address))
+            if (restate.address.equals(address))
                 result.add(restate);
         }
 
         return result;
     }
 
-    public Agent addAgent(Agent agent) {
-        if (agent.getCommission() != null && (agent.getCommission() < 0 || agent.getCommission() > 1))
-            throw new IllegalArgumentException();
-
-        agents.add(agent);
-
-        return agent;
-    }
 
     public Demand publishDemand(Demand demand) {
-        return null;
-    }
+        try {
+            demand = (Demand) demand.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
 
-    public Demand cancelDemand(Demand demand) {
-        return null;
-    }
-
-    public List<Demand> demandsForClient(Client client) {
-        return null;
-    }
-
-    public List<Demand> demandsForAgent(Agent agent) {
-        return null;
-    }
-
-    public List<Demand> demandsForSupply(Supply supply) {
-        return null;
-    }
-
-    public Supply publishSupply(Supply supply) {
-        if (supply.getClient() == null || supply.getPrice() == null ||
-            supply.getRealEstate() == null || supply.getType() == null)
+        if (demand.client == null || demand.dealType == null)
             throw new IllegalArgumentException();
 
-        if (findRealEstateWithAddress(supply.getRealEstate().getAddress()) == null)
-            throw new IllegalArgumentException();
-
-        for (Contact contact: supply.getClient().getContacts()) {
+        for (Contact contact: demand.client.contacts) {
             if (searchClient(contact) == null)
                 throw new IllegalArgumentException();
             else
                 break;
         }
 
-        if (supply.getAgent() != null) {
+        if (demand.agent != null) {
             boolean found = false;
 
             for (Agent agent: agents) {
-                if (agent == supply.getAgent()) {
+                if (agent.equals(demand.agent)) {
                     found = true;
                     break;
                 }
@@ -711,8 +153,86 @@ class RestateApplication {
                 throw new IllegalArgumentException();
         }
 
-        supply.setPublishedDate(new Date());
-        supply.setActive(true);
+        demand.publishedDate = new Date();
+        demand.active = true;
+        demands.add(demand);
+
+        return demand;
+    }
+
+    public Demand cancelDemand(Demand demand) {
+        boolean found = false;
+
+        for (Demand d: this.demands) {
+            if (d.equals(demand)) {
+                found = true;
+                break;
+            }
+        }
+
+        if (!found)
+            throw new IllegalArgumentException();
+
+        demand.active = false;
+        return demand;
+    }
+
+    public List<Demand> demandsForClient(Client client) {
+        List<Demand> demands = new LinkedList<>();
+
+        for (Demand demand: this.demands) {
+            if (demand.client.equals(client)) {
+                demands.add(demand);
+            }
+        }
+
+        return demands;
+    }
+
+    public List<Demand> demandsForAgent(Agent agent) {
+        List<Demand> demands = new LinkedList<>();
+
+        for (Demand demand: this.demands) {
+            if (demand.agent.equals(agent)) {
+                demands.add(demand);
+            }
+        }
+
+        return demands;
+    }
+
+
+    public Supply publishSupply(Supply supply) {
+        if (supply.client == null || supply.price == null ||
+            supply.restate == null || supply.dealType == null)
+            throw new IllegalArgumentException();
+
+        if (findRealEstateWithAddress(supply.restate.address) == null)
+            throw new IllegalArgumentException();
+
+        for (Contact contact: supply.client.contacts) {
+            if (searchClient(contact) == null)
+                throw new IllegalArgumentException();
+            else
+                break;
+        }
+
+        if (supply.agent != null) {
+            boolean found = false;
+
+            for (Agent agent: agents) {
+                if (agent == supply.agent) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found)
+                throw new IllegalArgumentException();
+        }
+
+        supply.publishedDate = new Date();
+        supply.active = true;
         supplies.add(supply);
 
         return supply;
@@ -721,7 +241,7 @@ class RestateApplication {
     public Supply cancelSupply(Supply supply) {
         for (Supply s: supplies) {
             if (s == supply) {
-                supply.setActive(false);
+                supply.active = false;
                 return supply;
             }
         }
@@ -733,7 +253,7 @@ class RestateApplication {
         List<Supply> result = new LinkedList<>();
 
         for (Supply supply: supplies) {
-            if (supply.getClient().getContacts().equals(client.getContacts()))
+            if (supply.client.contacts.equals(client.contacts))
                 result.add(supply);
         }
 
@@ -744,16 +264,22 @@ class RestateApplication {
         List<Supply> result = new LinkedList<>();
 
         for (Supply supply: supplies) {
-            if (supply.getAgent() == agent)
+            if (supply.agent == agent)
                 result.add(supply);
         }
 
         return result;
     }
 
-    public List<Supply> suppliesForDemand(Demand demand) {
+
+    public <T extends RealEstate> List<Supply<T>> suppliesForDemand(Demand<T> demand) {
         return null;
     }
+
+    public List<Demand> demandsForSupply(Supply supply) {
+        return null;
+    }
+
 
     public Deal publishDeal(Deal deal) {
         return null;
