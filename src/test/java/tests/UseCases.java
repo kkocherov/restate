@@ -5,6 +5,16 @@ import restate.RealEstateApplication;
 import model.*;
 import static org.junit.Assert.*;
 
+/**
+ * Unit тесты основной бизнес логики приложения, изложенной в заданиях к сессиям.
+ * Экспертная комиссия воспользуется тестами для дополнительной проверки приложения.
+ *
+ * Рекомендуется также использовать тесты для самопроверки.
+ *
+ * Чтобы пройти тестирование, реализуйте методы класса {@link RealEstateApplication}
+ *
+ * Запрещено модифицировать тесты.
+ */
 public class UseCases
 {
     @Test(expected = IllegalArgumentException.class)

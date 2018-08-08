@@ -2,6 +2,16 @@ package restate;
 
 import model.*;
 
+/**
+ * Класс, реализующий бизнес-логику приложения. Используется при автоматизированном тестировании.
+ *
+ * Реализуйте все методы данного класса в соответствии с требованиями задания.
+ * Для этого вам понадобится реализовать интерфейсы, которые распологаются в модуле model
+ *
+ * Рекомендуется ознакомиться с содержимым тестов {@link tests.UseCases}. Большинство тестов направлены на проверку
+ * корректной обработки исключительных ситуаций. Это в свою очередь означает, что реализуемые методы должны
+ * выбрасывать исключения определенных типов: {@link IllegalArgumentException} или {@link IllegalStateException}.
+ */
 public class RealEstateApplication implements IRealEstateApplication {
     public IAddress createAddress(String city, String street, String house, String number) {
         return null;
